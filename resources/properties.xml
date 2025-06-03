@@ -1,0 +1,18 @@
+<resources>
+    <properties>
+        <property id="ChainRings" type="string">34;50</property>
+        <property id="Cogs" type="string">11;12;13;14;15;16;17;19;22;25;28</property>
+        <property id="WheelCircumference" type="float">2.096</property>
+    </properties>
+    <settings>
+        <setting propertyKey="@Properties.ChainRings" title="@Strings.ChainRingsLabel">
+            <settingConfig type="alphaNumeric" required="true" />
+        </setting>
+        <setting propertyKey="@Properties.Cogs" title="@Strings.CogsLabel">
+            <settingConfig type="alphaNumeric" required="true" />
+        </setting>
+        <setting propertyKey="@Properties.WheelCircumference" title="@Strings.WheelCircumferenceLabel">
+            <settingConfig type="numeric" required="true" min="0.9" max="2.5" errorMessage="@Strings.WheelCircumferenceError" />
+        </setting>
+    </settings>
+</resources>
