@@ -8,12 +8,13 @@ class CogView extends WatchUi.SimpleDataField {
     private var _cogs as Array<Number> = [11,12,13,14,15,16,17,19,22,25,28];
     private var _wheelCircumference as Float = 2.096;
     private var _lastValue = "--";
-    private var _configError = false;
+    private var _configError as Boolean = false;
 
     function initialize() {
         SimpleDataField.initialize();
         label = "COG";
 
+        // Read the configuration settings
         if (!readSettings()) {
             _configError = true;
         }
@@ -24,20 +25,27 @@ class CogView extends WatchUi.SimpleDataField {
             return "CONFIG!";
         }
 
+        // Get speed and cadence
         var speed = info.currentSpeed;
         var cadence = info.currentCadence;
 
+        // Don't continue if a value is missing or zero
         if (speed == null || cadence == null || speed == 0 || cadence == 0) {
             return _lastValue;
         }
 
-        // Uncomment this line when running in the simulator
+        // Uncomment this line when running in the simulator (the simulator doubles the value from the .fit file))
         //cadence = cadence / 2;
 
+        // Get closest cog for each chain ring
         var cog1 = getClosestCog(speed, cadence, _chainrings[0], _wheelCircumference);
-        var cog2 = getClosestCog(speed, cadence, _chainrings[1], _wheelCircumference);
+        if (_chainrings.size() > 1) {
+            var cog2 = getClosestCog(speed, cadence, _chainrings[1], _wheelCircumference);
+            _lastValue = cog1 + (cog2 / 100.0);
+        } else {
+            _lastValue = cog1;
+        }
 
-        _lastValue = cog1 + (cog2 / 100.0);
         return _lastValue;
     }
 
